@@ -1,6 +1,6 @@
 {
-  "name": "guava/filament-icon-picker",
-  "description": "A filament plugin that adds an icon picker field.",
+  "name": "guava/filament-drafts",
+  "description": "A filament plugin that adds the ability to manage drafts and revisions of your models.",
   "type": "library",
   "license": "MIT",
   "authors": [
