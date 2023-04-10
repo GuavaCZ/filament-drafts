@@ -9,6 +9,12 @@ This plugin adds the ability to manage your model's drafts and revisions in your
 
 It's a filament implementation for [Laravel Drafts](https://github.com/oddvalue/laravel-drafts).
 
+
+
+https://user-images.githubusercontent.com/10926334/230877140-ffaaf03a-5cad-4af5-8600-06dd5ab31e82.mov
+
+
+
 ## Installation
 
 You can install the package with composer:
