@@ -39,7 +39,21 @@ class Post extends Model
 }
 ```
 
-After that, you need to add a few traits to your resource and resource pages:
+and modify your migration:
+```php
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('posts', function (Blueprint $table) {
+            //...
+            $table->drafts();
+        };
+    }
+}
+```
+
+After that, all you need to do is add a few traits to your resource and resource pages:
 
 ### Resource Trait
 Add the `Draftable` trait to your Resource:
@@ -61,7 +75,7 @@ Add the respective `Draftable` trait to your Resource Pages:
 ```php
 use Guava\FilamentDrafts\Admin\Resources\Pages\Create\Draftable;
 
-class PostResource extends Resource
+class CreatePost extends CreateRecord
 {
     use Draftable;
 }
@@ -71,7 +85,7 @@ class PostResource extends Resource
 ```php
 use Guava\FilamentDrafts\Admin\Resources\Pages\Edit\Draftable;
 
-class PostResource extends Resource
+class EditPost extends EditRecord
 {
     use Draftable;
 }
@@ -81,7 +95,7 @@ class PostResource extends Resource
 ```php
 use Guava\FilamentDrafts\Admin\Resources\Pages\List\Draftable;
 
-class PostResource extends Resource
+class ListPosts extends ListRecords
 {
     use Draftable;
 }
