@@ -1,3 +1,4 @@
+![filament_drafts](https://user-images.githubusercontent.com/10926334/230881634-3fefdbe4-4301-48f3-8a8f-25b214a88c26.png)
 
 # Filament Drafts
 
@@ -106,3 +107,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Other packages
+- [Laravel Populator](https://github.com/GuavaCZ/laravel-populator)
+- [Filament Icon Picker](https://github.com/LukasFreyCZ/filament-icon-picker)
