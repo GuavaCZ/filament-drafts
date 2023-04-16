@@ -5,7 +5,7 @@ return [
     'counts' => [
         'overview' => ':published, :drafts, :revisions',
         'published' => ':count published|:count publicados',
-        'drafts' => ':count draft|:count borradores',
+        'drafts' => ':count borrador|:count borradores',
         'revisions' => ':count/:max revisiones',
     ],
 
