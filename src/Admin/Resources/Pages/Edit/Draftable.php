@@ -51,12 +51,7 @@ trait Draftable
                     ->where('is_published', true)
                     ->update(['is_published' => false]));
             }
-
-            $record->update([
-                $data,
-                'is_published' => !$this->shouldSaveAsDraft,
-            ]);
-
+            $record->update($data);
             $record->is_published = !$this->shouldSaveAsDraft;
             $record->save();
             
