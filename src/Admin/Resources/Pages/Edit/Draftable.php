@@ -75,10 +75,7 @@ trait Draftable
 
     protected function getActions(): array
     {
-        return [
-            UnpublishAction::make(),
-            ...parent::getActions(),
-        ];
+        return [];
     }
 
     protected function getFormActions(): array
@@ -86,6 +83,7 @@ trait Draftable
         return [
             ...array_slice(parent::getFormActions(), 0, 1),
             SaveDraftAction::make(),
+            UnpublishAction::make(),
             ...array_slice(parent::getFormActions(), 1),
         ];
     }
