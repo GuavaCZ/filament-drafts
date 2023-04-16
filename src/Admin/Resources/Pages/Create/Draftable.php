@@ -18,8 +18,9 @@ trait Draftable
     {
         $model = $this->getModel()::make([
             ...$data,
-            'is_published' => !$this->shouldSaveAsDraft,
         ]);
+
+        $model->is_published = !$this->shouldSaveAsDraft;
 
         $model->withoutRevision()->save();
         return $model;
