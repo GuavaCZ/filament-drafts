@@ -57,11 +57,13 @@ trait Draftable
                 'is_published' => !$this->shouldSaveAsDraft,
             ]);
 
-            $record->is_published = 1;
+            $record->is_published = !$this->shouldSaveAsDraft;
             $record->save();
             
         }
 
+        // Alberto test
+        
         $this->emit('updateRevisions', $record->id);
 
         return $record;
