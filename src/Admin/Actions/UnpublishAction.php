@@ -29,6 +29,8 @@ class UnpublishAction extends Action
     {
         $record = $this->getLivewire()->record;
         $record::withoutTimestamps(fn() => $record->update(['is_published' => false]));
+        $record->is_published = false;
+        $record->save();
 
         $this->getLivewire()->emit('updateRevisions', $record->id);
     }
