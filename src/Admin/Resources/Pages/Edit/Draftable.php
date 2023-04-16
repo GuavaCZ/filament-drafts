@@ -51,13 +51,14 @@ trait Draftable
                     ->where('is_published', true)
                     ->update(['is_published' => false]));
             }
-
-            $record->update([
-                ...$data,
-                'is_published' => !$this->shouldSaveAsDraft,
-            ]);
+            $record->update($data);
+            $record->is_published = !$this->shouldSaveAsDraft;
+            $record->save();
+            
         }
 
+        // Alberto test
+        
         $this->emit('updateRevisions', $record->id);
 
         return $record;
@@ -75,10 +76,7 @@ trait Draftable
 
     protected function getActions(): array
     {
-        return [
-            UnpublishAction::make(),
-            ...parent::getActions(),
-        ];
+        return [];
     }
 
     protected function getFormActions(): array
@@ -86,6 +84,7 @@ trait Draftable
         return [
             ...array_slice(parent::getFormActions(), 0, 1),
             SaveDraftAction::make(),
+            UnpublishAction::make(),
             ...array_slice(parent::getFormActions(), 1),
         ];
     }
