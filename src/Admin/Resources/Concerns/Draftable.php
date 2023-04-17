@@ -3,9 +3,9 @@
 namespace Guava\FilamentDrafts\Admin\Resources\Concerns;
 
 use Exception;
+use Guava\FilamentDrafts\Concerns\HasDrafts;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Oddvalue\LaravelDrafts\Concerns\HasDrafts;
 
 /**
  * Draftable trait for Filament resources.
@@ -22,7 +22,7 @@ trait Draftable
      */
     public static function getEloquentQuery(): Builder
     {
-        if (! Arr::has(class_uses(static::$model), HasDrafts::class)) {
+        if (! Arr::hasAny(class_uses(static::$model), [HasDrafts::class, \Oddvalue\LaravelDrafts\Concerns\HasDrafts::class])) {
             throw new Exception('The resource\'s associated model must implement the HasDrafts trait.');
         }
 
