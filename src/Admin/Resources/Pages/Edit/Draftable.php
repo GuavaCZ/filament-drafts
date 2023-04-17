@@ -73,11 +73,6 @@ trait Draftable
             );
     }
 
-    protected function getActions(): array
-    {
-        return [];
-    }
-
     protected function getFormActions(): array
     {
         return [
