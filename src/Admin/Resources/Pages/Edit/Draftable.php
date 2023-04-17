@@ -73,19 +73,12 @@ trait Draftable
             );
     }
 
-    protected function getActions(): array
-    {
-        return [
-            UnpublishAction::make(),
-            ...parent::getActions(),
-        ];
-    }
-
     protected function getFormActions(): array
     {
         return [
             ...array_slice(parent::getFormActions(), 0, 1),
             SaveDraftAction::make(),
+            UnpublishAction::make(),
             ...array_slice(parent::getFormActions(), 1),
         ];
     }
