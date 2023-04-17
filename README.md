@@ -29,9 +29,9 @@ You can install the package with composer:
 ### Model Trait
 First make sure that you have correctly set-up a model to use drafts from Laravel Drafts.
 
-At the very least you need to add a trait to your model:
+At the very least you need to add the HasDrafts (please note this is a modified trait) trait to your model:
 ```php
-use Oddvalue\Drafts\HasDrafts;
+use Guava\FilamentDrafts\Concerns\HasDrafts;
 
 class Post extends Model
 {
@@ -52,6 +52,8 @@ return new class extends Migration
     }
 }
 ```
+
+NOTE: If you use the HasDrafts trait from Laravel Drafts, make sure you have defined `is_published` in your $fillable properties.
 
 After that, all you need to do is add a few traits to your resource and resource pages:
 
