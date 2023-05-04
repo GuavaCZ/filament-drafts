@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RevisionsPaginator extends Component
 {
@@ -31,7 +32,9 @@ class RevisionsPaginator extends Component
      */
     public function updateRevisions(int $id): void
     {
-        $record = $this->record::withDrafts()->find($id);
+        $record = $this->record::withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ])->withDrafts()->find($id);
 
         $this->revisions = $record->revisions()
 //            ->orderByDesc('is_current')
