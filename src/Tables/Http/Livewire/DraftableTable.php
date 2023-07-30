@@ -2,24 +2,37 @@
 
 namespace Guava\FilamentDrafts\Tables\Http\Livewire;
 
-use Closure;
-use Filament\Resources\Table;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
+use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
+use Filament\Tables\Contracts\HasTable;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 
-class DraftableTable extends Component implements HasTable
+class DraftableTable extends Component implements HasForms, HasTable
 {
-
     use InteractsWithTable;
+    use InteractsWithForms;
 
     public $resource;
 
     public function mount(string $resource)
     {
         $this->resource = $resource;
+    }
+
+    public function table(Table $table): Table
+    {
+        /**
+         * TODO: optionally show table actions from resource table.
+         * we are able to get table actions array just like we get table columns
+         * but the view and edit action do not work for some reason
+         */
+        return $table
+            ->query($this->getTableQuery())
+            ->columns($this->getTableColumns());
     }
 
     protected function getTableQuery(): Builder
@@ -29,33 +42,12 @@ class DraftableTable extends Component implements HasTable
 
     protected function getTableColumns(): array
     {
-        $columns = $this->resource::table(Table::make())
+        return $this->resource::table(Table::make($this))
             ->getColumns();
-
-//        $columns[0]->label('ąsdasd');
-
-        return [
-//            TextColumn::make('_published')
-//                ->label('Model')
-//                ->formatStateUsing(fn() => new HtmlString(
-//                    Blade::render(<<<blade
-//<div>
-//test
-//</div>
-//blade
-//                    ))),
-            ...$columns,
-        ];
-    }
-
-    protected function getTableRecordUrlUsing(): ?Closure
-    {
-        return fn($record) => $this->resource::getUrl('edit', ['record' => $record]);
     }
 
     public function render(): View
     {
         return view('filament-drafts::livewire.draftable-table');
     }
-
 }

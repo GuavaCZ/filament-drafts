@@ -11,9 +11,56 @@
 	</div>
 	<div class="w-full flex items-center justify-end">
 		<div class="w-full flex flex-col lg:items-end">
-			<div class="max-lg:overflow-x-scroll max-lg:pt-1 max-lg:pb-3">
-				<div class="border bg-white py-3 rounded-lg w-max">
-					<ol class="relative w-full flex items-center text-sm text-gray-500 divide-x rtl:divide-x-reverse divide-gray-300">
+                    @php
+                        $isRtl = __('filament-panels::layout.direction') === 'rtl';
+                    @endphp
+
+                    <ol
+                        class="hidden justify-self-end rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20 md:flex"
+                    >
+                        @isset($previousRevision)
+                            <x-filament-drafts::pagination-item
+                                :aria-label="__('filament::components/pagination.actions.previous.label')"
+                                :icon="$isRtl ? 'heroicon-m-chevron-right' : 'heroicon-m-chevron-left'"
+                                icon-alias="pagination.previous-button"
+                                rel="prev"
+                                href="{{$resource::getUrl('edit', ['record' => $previousRevision])}}"
+
+                            />
+                        @endisset
+
+                        @foreach($revisions as $revision)
+                            @php
+                                if ($revision->isPublished()) {
+                                    $label = substr(__('filament-drafts::paginator.published'), 0, 1);
+                                } elseif($revision->is_current) {
+                                    $label = substr(__('filament-drafts::paginator.draft'), 0, 1);
+                                } else {
+                                    $label = $loop->iteration;
+                                }
+                            @endphp
+
+                            <x-filament-drafts::pagination-item
+                                :published="$revision->id !== $record->id && $revision->isPublished()"
+                                :draft="$revision->id !== $record->id && $revision->is_current"
+                                :active="$revision->id === $record->id"
+                                :label="$label"
+                                href="{{$resource::getUrl('edit', ['record' => $revision])}}"
+                            />
+                        @endforeach
+
+                        @isset($nextRevision)
+                            <x-filament-drafts::pagination-item
+                                :aria-label="__('filament::components/pagination.actions.next.label')"
+                                :icon="$isRtl ? 'heroicon-m-chevron-left' : 'heroicon-m-chevron-right'"
+                                icon-alias="pagination.next-button"
+                                rel="next"
+                                href="{{$resource::getUrl('edit', ['record' => $nextRevision])}}"
+                            />
+                        @endisset
+                    </ol>
+
+					{{-- <ol class="relative w-full flex items-center text-sm text-gray-500 divide-x rtl:divide-x-reverse divide-gray-300">
 						@isset($previousRevision)
 							<li>
 								<a
@@ -62,9 +109,7 @@
 								</a>
 							</li>
 						@endisset
-					</ol>
-				</div>
-			</div>
+					</ol> --}}
 			<div class="ml-auto mr-0 py-3 pt-5">
 				<div class="flex items-end flex-row gap-2">
 					<div @class([

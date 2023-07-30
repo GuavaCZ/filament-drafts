@@ -2,8 +2,7 @@
 
 namespace Guava\FilamentDrafts\Admin\Resources\Pages\Create;
 
-use Filament\Pages\Actions\Action;
-use Guava\FilamentDrafts\Admin\Actions\PublishAction;
+use Filament\Actions\Action;
 use Guava\FilamentDrafts\Admin\Actions\SaveDraftAction;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,10 +17,11 @@ trait Draftable
     {
         $model = $this->getModel()::make([
             ...$data,
-            'is_published' => !$this->shouldSaveAsDraft,
+            'is_published' => ! $this->shouldSaveAsDraft,
         ]);
 
         $model->withoutRevision()->save();
+
         return $model;
     }
 
@@ -32,7 +32,8 @@ trait Draftable
             ->label(__('filament-drafts::actions.publish'));
     }
 
-    protected function getCreateAnotherFormAction(): Action {
+    protected function getCreateAnotherFormAction(): Action
+    {
         return parent::getCreateAnotherFormAction()
             ->label(__('filament-drafts::actions.publish_and_create_another'));
     }
