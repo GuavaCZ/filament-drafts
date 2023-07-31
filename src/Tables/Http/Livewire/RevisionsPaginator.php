@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Attributes\Computed;
 
 class RevisionsPaginator extends Component
 {
@@ -57,6 +58,25 @@ class RevisionsPaginator extends Component
         $this->record = $record;
 
         $this->updateRevisions($this->record->id);
+    }
+
+    #[Computed]
+    public function publishedAndDraftRevision()
+    {
+        return $this->revisions
+            ->filter(fn ($revision) => $revision->isPublished() || $revision->is_current);
+    }
+
+    #[Computed]
+    public function otherRevisions()
+    {
+        return $this->revisions
+            ->filter(fn ($revision) => ! $revision->isPublished() && ! $revision->is_current);
+    }
+
+    public function redirectTo($url)
+    {
+        return $this->redirect($url, navigate: true);
     }
 
     public function render(): View
