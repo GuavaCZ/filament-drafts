@@ -16,51 +16,31 @@
                 $isRtl = __('filament-panels::layout.direction') === 'rtl';
             @endphp
 
-            <x-filament::tabs label="Content tabs">
-                @foreach ($this->publishedAndDraftRevision as $revision)
-                    <x-filament::tabs.item
-                        :active="$revision->id === $record->id"
-                        :disabled="$revision->id === $record->id"
-                        wire:click="redirectTo('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
-                    >
-                        {{ $revision->isPublished() ? 'Published' : 'Draft' }}
-                    </x-filament::tabs.item>
-                @endforeach
-            </x-filament::tabs>
+            <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20">
+                <x-filament::tabs label="Content tabs">
+                    @foreach ($this->publishedAndDraftRevision as $revision)
+                        <x-filament::tabs.item
+                            :active="$revision->id === $record->id"
+                            :disabled="$revision->id === $record->id"
+                            wire:click="switchVersion('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
+                        >
+                            {{ $revision->isPublished() ? 'Published' : 'Draft' }}
+                        </x-filament::tabs.item>
+                    @endforeach
+                </x-filament::tabs>
+            </div>
 
             <ol
                 class="hidden justify-self-end rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20 md:flex"
             >
-                @isset($previousRevision)
-                    <x-filament-drafts::pagination-item
-                        :aria-label="__('filament::components/pagination.actions.previous.label')"
-                        :icon="$isRtl ? 'heroicon-m-chevron-right' : 'heroicon-m-chevron-left'"
-                        icon-alias="pagination.previous-button"
-                        rel="prev"
-                        :disabled="$revision->id === $record->id"
-                        wire:click="redirectTo('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
-                    />
-                @endisset
-
                 @foreach ($this->otherRevisions as $revision)
                     <x-filament-drafts::pagination-item
                         :active="$revision->id === $record->id"
                         :disabled="$revision->id === $record->id"
                         :label="$loop->iteration"
-                        wire:click="redirectTo('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
+                        wire:click="switchVersion('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
                     />
                 @endforeach
-
-                @isset($nextRevision)
-                    <x-filament-drafts::pagination-item
-                        :aria-label="__('filament::components/pagination.actions.next.label')"
-                        :icon="$isRtl ? 'heroicon-m-chevron-left' : 'heroicon-m-chevron-right'"
-                        icon-alias="pagination.next-button"
-                        rel="next"
-                        :disabled="$revision->id === $record->id"
-                        wire:click="redirectTo('{{ $resource::getUrl('edit', ['record' => $revision]) }}')"
-                    />
-                @endisset
             </ol>
         </div>
     </div>

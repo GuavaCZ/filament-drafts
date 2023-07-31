@@ -12,8 +12,6 @@ use Livewire\Attributes\Computed;
 class RevisionsPaginator extends Component
 {
     public Collection $revisions;
-    public ?Model $previousRevision;
-    public ?Model $nextRevision;
 
     public Model $record;
 
@@ -38,18 +36,14 @@ class RevisionsPaginator extends Component
         ])->withDrafts()->find($id);
 
         $this->revisions = $record->revisions()
-//            ->orderByDesc('is_current')
             ->orderByDesc('updated_at')
             ->get();
+
         $this->counts = [
             'published' => $this->revisions->where('is_published', true)->count(),
             'drafts' => $this->revisions->where('is_published', false)->where('is_current', true)->count(),
             'revisions' => $this->revisions->where('is_published', false)->where('is_current', false)->count(),
         ];
-
-        $index = $this->revisions->search($record);
-        $this->previousRevision = $this->revisions->get($index - 1);
-        $this->nextRevision = $this->revisions->get($index + 1);
     }
 
     public function mount(string $resource, Model $record): void
@@ -70,11 +64,11 @@ class RevisionsPaginator extends Component
     #[Computed]
     public function otherRevisions()
     {
-        return $this->revisions
-            ->filter(fn ($revision) => ! $revision->isPublished() && ! $revision->is_current);
+        return $this->revisions;
+        // ->filter(fn ($revision) => ! $revision->isPublished() && ! $revision->is_current);
     }
 
-    public function redirectTo($url)
+    public function switchVersion($url)
     {
         return $this->redirect($url, navigate: true);
     }
