@@ -64,8 +64,8 @@ class RevisionsPaginator extends Component
     #[Computed]
     public function otherRevisions()
     {
-        return $this->revisions;
-        // ->filter(fn ($revision) => ! $revision->isPublished() && ! $revision->is_current);
+        return $this->revisions
+            ->filter(fn ($revision) => ! $revision->isPublished() && ! $revision->is_current);
     }
 
     public function switchVersion($url)
