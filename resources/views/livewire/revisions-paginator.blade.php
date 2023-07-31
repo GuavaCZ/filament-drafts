@@ -11,7 +11,7 @@
             ]) }}
         </div>
 
-        <div class="flex w-full items-center justify-end">
+        <div class="flex w-full gap-x-3 items-center justify-end">
             @php
                 $isRtl = __('filament-panels::layout.direction') === 'rtl';
             @endphp
