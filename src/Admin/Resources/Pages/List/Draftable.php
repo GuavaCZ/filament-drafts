@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait Draftable
 {
-
     /**
      * Returns the custom view for the page.
      */
@@ -39,6 +38,6 @@ trait Draftable
     public function render(): View
     {
         return view(static::getView(), $this->getViewData())
-            ->layout(static::$layout, $this->getLayoutData());
+            ->layout(static::$layout, ['livewire' => $this]);
     }
 }

@@ -4,15 +4,12 @@ namespace Guava\FilamentDrafts\Admin\Resources\Pages\Edit;
 
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
-use Filament\Pages\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 use Guava\FilamentDrafts\Admin\Actions\SaveDraftAction;
 use Guava\FilamentDrafts\Admin\Actions\UnpublishAction;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 
 /**
  *
@@ -25,7 +22,8 @@ trait Draftable
 
     public function renderingDraftable(): void
     {
-        Filament::registerRenderHook('content.end',
+        Filament::registerRenderHook(
+            'panels::content.end',
             function () {
                 return view('filament-drafts::filament.revisions-paginator', [
                     'resource' => $this->getResource(),
@@ -39,26 +37,26 @@ trait Draftable
     {
         if ($record->isPublished() && $this->shouldSaveAsDraft) {
             $record->updateAsDraft($data);
-        } else if ($record->isPublished() && !$this->shouldSaveAsDraft) {
+        } elseif ($record->isPublished() && ! $this->shouldSaveAsDraft) {
             $record->update($data);
-        } else if (!$record->is_current && $this->shouldSaveAsDraft) {
+        } elseif (! $record->is_current && $this->shouldSaveAsDraft) {
             $record->updateAsDraft($data);
         } else {
             // Unpublish all other revisions
-            if (!$this->shouldSaveAsDraft) {
+            if (! $this->shouldSaveAsDraft) {
                 /** @var HasMany $revisions */
-                $record::withoutTimestamps(fn() => $record->revisions()
+                $record::withoutTimestamps(fn () => $record->revisions()
                     ->where('is_published', true)
                     ->update(['is_published' => false]));
             }
 
             $record->update([
                 ...$data,
-                'is_published' => !$this->shouldSaveAsDraft,
+                'is_published' => ! $this->shouldSaveAsDraft,
             ]);
         }
 
-        $this->emit('updateRevisions', $record->id);
+        $this->dispatch('updateRevisions', $record->id);
 
         return $record;
     }
@@ -67,8 +65,9 @@ trait Draftable
     {
         return parent::getSaveFormAction()
             ->color('success')
-            ->label(fn(EditRecord $livewire) => $livewire->getRecord()->isPublished()
-                ? __('filament::resources/pages/edit-record.form.actions.save.label')
+            ->label(
+                fn (EditRecord $livewire) => $livewire->getRecord()->isPublished()
+                ? __('filament-panels::resources/pages/edit-record.form.actions.save.label')
                 : __('filament-drafts::actions.publish')
             );
     }
@@ -98,5 +97,4 @@ trait Draftable
 
         return $notification;
     }
-
 }
