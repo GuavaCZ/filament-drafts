@@ -11,13 +11,13 @@
             ]) }}
         </div>
 
-        <div class="flex w-full gap-x-3 items-center justify-end">
+        <div class="mt-2 sm:mt-0 flex w-full gap-x-3 items-center justify-end">
             @php
                 $isRtl = __('filament-panels::layout.direction') === 'rtl';
             @endphp
 
-            <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20">
-                <x-filament::tabs label="Content tabs">
+            <div class="rounded-xl bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20">
+                <x-filament::tabs label="Content tabs" style="padding: 0">
                     @foreach ($this->publishedAndDraftRevision as $revision)
                         <x-filament::tabs.item
                             :active="$revision->id === $record->id"
@@ -31,7 +31,7 @@
             </div>
 
             <ol
-                class="hidden justify-self-end rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20 md:flex"
+                class="justify-self-end rounded-lg bg-white shadow-sm ring-1 ring-gray-950/10 dark:bg-white/5 dark:ring-white/20 flex"
             >
                 @foreach ($this->otherRevisions as $revision)
                     <x-filament-drafts::pagination-item
