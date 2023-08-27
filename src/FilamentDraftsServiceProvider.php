@@ -30,7 +30,6 @@ class FilamentDraftsServiceProvider extends PackageServiceProvider
             Css::make('filament-drafts-styles', __DIR__ . '/../dist/plugin.css'),
         ], package: 'guava/filament-drafts');
 
-        Livewire::component('filament-drafts::draftable-table', DraftableTable::class);
         Livewire::component('filament-drafts::revisions-paginator', RevisionsPaginator::class);
     }
 }

@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "filament/filament": "^3.0@beta",
+        "filament/filament": "^3.0-stable",
         "oddvalue/laravel-drafts": "^1.3"
     },
     "require-dev": {
