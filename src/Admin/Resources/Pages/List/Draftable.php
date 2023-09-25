@@ -11,8 +11,10 @@ trait Draftable
     {
         return [
             'all' => Tab::make()
+                ->label(__('filament-drafts::tables.all-table.title'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->withoutDrafts()),
             'drafts' => Tab::make()
+                ->label(__('filament-drafts::tables.draftable-table.title'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyDrafts()->where('is_current', true)),
         ];
     }
