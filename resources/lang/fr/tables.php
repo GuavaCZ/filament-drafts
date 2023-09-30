@@ -1,9 +1,9 @@
 <?php
 return [
     'draftable-table' => [
-        'title' => 'Drafts',
+        'title' => 'Brouillons',
     ],
     'all-table' => [
-        'title' => 'All',
+        'title' => 'Tous',
     ],
 ];
